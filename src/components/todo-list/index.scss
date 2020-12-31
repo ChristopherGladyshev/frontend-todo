@@ -1,0 +1,14 @@
+.todo-list {
+  .list-group-item {
+    padding: .25rem .75rem;
+  }
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .btn{
+    margin-left: 20px;
+  }
+}
