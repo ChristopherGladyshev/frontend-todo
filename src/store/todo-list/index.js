@@ -1,6 +1,4 @@
-import {
-    types
-} from './types';
+import { types } from './types';
 
 const initialState = {
     todoList: [{
@@ -8,21 +6,24 @@ const initialState = {
     }],
 };
 
-export default function fatchModal(state = initialState, action) {
+export default function fatchTasks(state = initialState, action) {
     switch (action.type) {
         case types.FETCH_DATA_START:
+            console.log(1)
             return {
                 ...state,
                 todoList: [...initialState.todoList],
             };
 
         case types.FETCH_DATA_SUCCESS:
+            console.log(action.data)
             return {
                 ...state,
                 todoList: action.data,
             };
 
         case types.FETCH_DATA_ERROR:
+            console.log(2)
             return {
                 ...state,
                 error: action.error,
@@ -31,7 +32,6 @@ export default function fatchModal(state = initialState, action) {
         default:
             return {
                 ...state,
-                todoList: [...initialState.todoList],
             };
     }
 }

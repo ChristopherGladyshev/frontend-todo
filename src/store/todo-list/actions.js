@@ -11,19 +11,22 @@ const fetchDataError = () => ({
     type: types.FETCH_DATA_ERROR
 });
 
-export const fetchTodoList = () => dispatch => {
+export const fetchTodoList = (name) =>{
 
-    dispatch(fetchDataStart());
+    fetchDataStart();
+    
 
-    return fetch('http://194.87.214.215:3000/tasks/?developer=admin', {
-            method: "GET",
-        })
-        .then((data = []) => {
-            dispatch(fetchDataSuccess(data));
+    return fetch('http://194.87.214.215:3000/tasks/',{
+        method: 'GET',
+        mode: "cors",
+    })
+        .then((data) => {
+            console.log(data)
+            fetchDataSuccess(data);
             return data;
         })
         .catch(error => {
-            dispatch(fetchDataError(error));
+            fetchDataError(error);
             return Promise.reject(error);
         });
 };

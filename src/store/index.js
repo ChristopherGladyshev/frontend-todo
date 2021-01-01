@@ -1,6 +1,6 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import fatchTodoList from './todo-list';
+import fatchTasks from './todo-list';
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers =
@@ -15,7 +15,7 @@ const composeEnhancers =
 const configureStore = preloadedState => (
     createStore(
         
-        fatchTodoList,
+        fatchTasks,
         compose(applyMiddleware(thunk), composeEnhancers()),
     )
 );

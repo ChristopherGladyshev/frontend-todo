@@ -3,13 +3,13 @@ import React from 'react';
 import './index.scss';
 
 
-export const TodoListItem = ({ text, email, username, status, id }) => {
+export const TodoListItem = ({ text, email, username, status, id, onDeleted }) => {
   return (
     <div className={"todo-list__item"} id={id}>
       <div>
-        <p className="todo-list-item-label">{text} </p>
-        <p className="todo-list-item-label">{username}</p>
-        <p className="todo-list-item-label">{status}</p>
+        <p className="todo-list-item-label">User Name {username}</p>
+        <p className="todo-list-item-label">Task {text}</p>
+        <p className="todo-list-item-label">Status {status}</p>
       </div>
 
       <div>
@@ -22,6 +22,7 @@ export const TodoListItem = ({ text, email, username, status, id }) => {
 
         <button
           type="button"
+          onClick={onDeleted}
           className="btn btn-outline-danger btn-sm float-right"
         >
           <i className="fa fa-trash-o" />

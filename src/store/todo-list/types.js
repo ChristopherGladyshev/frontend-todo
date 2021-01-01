@@ -1,6 +1,4 @@
-import {
-    createTypes,
-} from 'redux-action-types';
+import { createTypes } from 'redux-action-types';
 
 export const types = createTypes('',
     'FETCH_DATA_START', 
