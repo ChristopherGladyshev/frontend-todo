@@ -1,51 +1,51 @@
-import React from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import { AppHeader } from '../app-header';
-import { SearchPanel } from '../search-panel';
-import { TodoList } from '../todo-list';
-import { ItemStatusFilter } from '../item-status-filter';
-import { ItemAddForm } from '../item-add-form';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { AppHeader } from "../app-header";
+import { SearchPanel } from "../search-panel";
+import { TodoList } from "../todo-list";
+import { ItemStatusFilter } from "../item-status-filter";
+import { ItemAddForm } from "../item-add-form";
 
 import { fetchTodoList } from "../../store/todo-list/actions";
 import { status } from "../../store/todo-list/selectors";
 
-import './index.scss';
-const todoDeta = [
-  {
-    text: 'Drink Coffee',
-    email: "tima-999@inbox.ru",
-    username: "rim",
-    status: 0,
-    id: 1,
-  },
-  {
-    text: 'Build React App',
-    email: "timonr-999@inbox.ru",
-    username: "rim",
-    status: 0,
-    id: 2,
-  },
-  {
-    text: 'Make Awesome App',
-    email: "timyr-999@inbox.ru",
-    username: "admin",
-    status: 0,
-    id: 3,
-  },
-]
-
-
-
+import "./index.scss";
 
 export const App = () => {
+  const getData = useSelector(status);
+  const [data, setData] = useState([]);
 
-  const dispatch = useDispatch;
-  const data = useSelector(status);
-  console.log(data)
-  dispatch(fetchTodoList());
+  const statusFilter = (task) => {
+    console.log(task);
+    switch (task) {
+      case "All":
+        return setData(getData);
+      case "User Name":
+        console.log(data);
+        data.message.tasks.forEach((element) => {
+          const { username } = element;
+          console.log(username);
+        });
+        return setData();
 
-  const submit = (id) => {
-    console.log(id) 
+      default:
+        break;
+    }
+  };
+
+  useEffect(() => {
+    fetchTodoList();
+    setData(getData);
+  }, []);
+
+  const deleteTask = (id) => {
+    fetch(`http://194.87.214.215:3000/task/${id}`, {
+      method: "DELETE",
+    })
+      .then((request) => request.json())
+      .then((data) => {
+        if (data.status === "delete") fetchTodoList();
+      });
   };
 
   return (
@@ -53,15 +53,10 @@ export const App = () => {
       <AppHeader toDo={1} done={3} />
       <div className="top-panel d-flex">
         <SearchPanel />
-        <ItemStatusFilter />
+        <ItemStatusFilter onFilterStatus={statusFilter} />
       </div>
-      <TodoList
-        todos={todoDeta}
-        onDeleted={submit}
-      />
-      <ItemAddForm
-        addItem={() => { }}
-      />
+      <TodoList todos={data} onDeleted={deleteTask} />
+      <ItemAddForm addItem={() => {}} />
     </div>
-  )
+  );
 };

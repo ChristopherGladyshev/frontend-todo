@@ -1,32 +1,30 @@
-import { types } from './types';
+import store from '../../store'
 
 const fetchDataStart = () => ({
-    type: types.FETCH_DATA_START
+    type: "FETCH_DATA_START"
 });
 const fetchDataSuccess = data => ({
-    type: types.FETCH_DATA_SUCCESS,
+    type: "FETCH_DATA_SUCCESS",
     data
 });
 const fetchDataError = () => ({
-    type: types.FETCH_DATA_ERROR
+    type: "FETCH_DATA_ERROR"
 });
 
-export const fetchTodoList = (name) =>{
+export const fetchTodoList = () => {
 
-    fetchDataStart();
-    
+    store.dispatch(fetchDataStart());
 
-    return fetch('http://194.87.214.215:3000/tasks/',{
-        method: 'GET',
-        mode: "cors",
-    })
+    return fetch('http://194.87.214.215:3000/tasks/?developer=admin', {
+            method: 'GET',
+            mode: "cors",
+        })
+        .then((response) => response.json())
         .then((data) => {
-            console.log(data)
-            fetchDataSuccess(data);
-            return data;
+            return store.dispatch(fetchDataSuccess(data));
         })
         .catch(error => {
-            fetchDataError(error);
+            store.dispatch(fetchDataError(error));
             return Promise.reject(error);
         });
 };
