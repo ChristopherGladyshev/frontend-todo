@@ -6,6 +6,7 @@ import { TodoList } from "../todo-list";
 import { ItemStatusFilter } from "../item-status-filter";
 import { ItemAddForm } from "../item-add-form";
 import { ModalLogin } from "../modal-login";
+import { AddTaskModal } from "../modal-add-form";
 
 import { fetchTodoList } from "../../store/todo-list/actions";
 import { fetchLogin } from "../../store/login/actions"
@@ -46,7 +47,7 @@ export const App = () => {
 
       case "User Name":
         setData(getData);
-       
+
         data.message.tasks.forEach((element) => {
           const { username } = element;
           const isUser = username.startsWith(search);
@@ -55,7 +56,7 @@ export const App = () => {
             arr.message.tasks.push(element);
           }
         });
-       
+
         if (arr.status === "User Search") {
           search = null;
           setData(arr);
@@ -71,7 +72,7 @@ export const App = () => {
             arr.message.tasks.push(element);
           }
         });
-        
+
         if (arr.status === "Email Search") {
           search = null;
           setData(arr);
@@ -104,6 +105,27 @@ export const App = () => {
       });
   };
 
+  const addTsks = (username, email, task, status) => {
+    if (getStatusLog.token) {
+      fetch("url", {
+        mode: "cors",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: username,
+          email: email,
+          task: task,
+          status: status,
+        })
+      })
+    }
+  }
+
+  const addModal =()=>{
+    return (<AddTaskModal status={getStatusLog} add={addTsks}/>)
+  }
+
   return (
     <div className="todo-app">
       <AppHeader toDo={1} done={3} />
@@ -112,8 +134,9 @@ export const App = () => {
         <ItemStatusFilter onFilterStatus={setTask} task={task} />
       </div>
       <TodoList todos={data} onDeleted={deleteTask} />
-      <ItemAddForm addItem={() => {}} />
-      <ModalLogin change={fetchLogin} status={getStatusLog}/>
+      <ItemAddForm addItem={() => { }} />
+      <ModalLogin change={fetchLogin} status={getStatusLog} />
+      {addModal()}
     </div>
   );
 };

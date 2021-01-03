@@ -6,7 +6,6 @@ import { validName } from "../valid";
 import "./index.scss";
 
 export const ModalLogin = ({ change, status }) => {
-  const [email, useEmail] = useState("");
   const [name, useName] = useState("");
   const [pass, usePass] = useState("");
   const [errName, useErrName] = useState("");
@@ -27,7 +26,10 @@ export const ModalLogin = ({ change, status }) => {
   console.log(status);
 
   const fetchLog = () => {
-    change("admin", "123");
+    if (name && pass) {
+      change(name, pass);
+    }
+
   };
 
   const onChangeSearch = (e) => {
@@ -36,7 +38,7 @@ export const ModalLogin = ({ change, status }) => {
     valid(value, e.target.type);
   };
   return (
-    <div className={"modal-login"}>
+    <div className={status.token ? "modal-login modal-login-active": "modal-login modal-login-active"}>
       <form className="form-group" onSubmit={(e) => e.preventDefault()}>
         <Input
           type="text"

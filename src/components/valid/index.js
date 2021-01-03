@@ -36,7 +36,7 @@ export const validTel = (value, callbackUP, callbackErr) => {
 export const validEmail = (value, callbackUP, callbackErr) => {
     if (regEmail().test(value) && value.length >= 3) {
         callbackUP(value);
-        callbackErr("ok");
+        callbackErr("is-valid");
     } else {
         callbackUP("");
       callbackErr("err");
