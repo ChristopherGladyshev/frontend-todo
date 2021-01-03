@@ -1,40 +1,40 @@
 import { types } from './types';
 
 const initialState = {
-    todoList: [{
-        status: null,
-        message: {
-            tasks: []
+    admin: [
+        {
+            token: null
         }
-
-    }],
+    ],
 };
 
-export default function fatchTasks(state = initialState, action) {
+export default function fatchToken(state = initialState, action) {
+
     const { type, data, error } = action;
+    
     switch (type) {
-        case types.FETCH_DATA_START:
+        case types.FETCH_TOKEN_START:
             return {
                 ...state,
-                todoList: [...initialState.todoList],
+                admin: [...initialState.admin],
             };
 
-        case types.FETCH_DATA_SUCCESS:
+        case types.FETCH_TOKEN_SUCCESS:
 
             return {
                 ...state,
-                todoList: data,
+                admin: data,
             };
 
-        case types.FETCH_DATA_ERROR:
+        case types.FETCH_TOKEN_ERROR:
             return {
-                ...state,
                 error: error,
             };
 
         default:
             return {
                 ...state,
+                admin: [...initialState.admin]
             };
     }
 }

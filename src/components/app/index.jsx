@@ -5,15 +5,18 @@ import { SearchPanel } from "../search-panel";
 import { TodoList } from "../todo-list";
 import { ItemStatusFilter } from "../item-status-filter";
 import { ItemAddForm } from "../item-add-form";
-import { Modal } from "../form";
+import { ModalLogin } from "../modal-login";
 
 import { fetchTodoList } from "../../store/todo-list/actions";
-import { status } from "../../store/todo-list/selectors";
+import { fetchLogin } from "../../store/login/actions"
+import { statusList } from "../../store/todo-list/selectors";
+import { statusLogin } from "../../store/login/selectors";
 
 import "./index.scss";
 
 export const App = () => {
-  const getData = useSelector(status);
+  const getData = useSelector(statusList);
+  const getStatusLog = useSelector(statusLogin)
   const [data, setData] = useState({
     status: null,
     message: {
@@ -110,7 +113,7 @@ export const App = () => {
       </div>
       <TodoList todos={data} onDeleted={deleteTask} />
       <ItemAddForm addItem={() => {}} />
-      <Modal/>
+      <ModalLogin change={fetchLogin} status={getStatusLog}/>
     </div>
   );
 };

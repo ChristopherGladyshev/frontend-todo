@@ -2,9 +2,9 @@ import {
     createSelector
 } from 'reselect';
 
-export const status = createSelector(
-    state => state.todoList,
-    todoList => todoList || {
+export const statusList = createSelector(
+    state => state.fatchTasks,
+    fatchTasks => fatchTasks.todoList || {
         status: null,
         message: {
             tasks: []

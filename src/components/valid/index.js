@@ -1,5 +1,5 @@
 export const regName = () => {
-    return new RegExp(/^[а-яё \t]+$/iu)
+    return new RegExp(/^[A-Za-z0-9]+$/)
 };
 
 export const regTel = () => {
@@ -16,7 +16,7 @@ export const regEmail = ()=>{
 export const validName = (value, callbackUP, callbackErr) => {
     if (regName().test(value) && value.length >= 3) {
         callbackUP(value);
-        callbackErr("ok");
+        callbackErr("is-valid");
     } else {
         callbackUP("");
       callbackErr("err");

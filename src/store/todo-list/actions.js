@@ -1,14 +1,15 @@
 import store from '../../store'
+import { types } from './types';
 
 const fetchDataStart = () => ({
-    type: "FETCH_DATA_START"
+    type: types.FETCH_DATA_START
 });
 const fetchDataSuccess = data => ({
-    type: "FETCH_DATA_SUCCESS",
+    type: types.FETCH_DATA_SUCCESS,
     data
 });
 const fetchDataError = () => ({
-    type: "FETCH_DATA_ERROR"
+    type: types.FETCH_DATA_ERROR
 });
 
 export const fetchTodoList = () => {
