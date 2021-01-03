@@ -8,6 +8,7 @@ export const TodoListItem = ({ text, email, username, status, id, onDeleted }) =
     <div className={"todo-list__item"} id={id}>
       <div>
         <p className="todo-list-item-label">User Name {username}</p>
+        <p className="todo-list-item-label">Email {email}</p>
         <p className="todo-list-item-label">Task {text}</p>
         <p className="todo-list-item-label">Status {status}</p>
       </div>

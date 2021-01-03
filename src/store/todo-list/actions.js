@@ -21,7 +21,8 @@ export const fetchTodoList = () => {
         })
         .then((response) => response.json())
         .then((data) => {
-            return store.dispatch(fetchDataSuccess(data));
+             store.dispatch(fetchDataSuccess(data));
+             return data;
         })
         .catch(error => {
             store.dispatch(fetchDataError(error));

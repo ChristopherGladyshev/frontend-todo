@@ -1,14 +1,44 @@
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState } from "react";
 import { TodoListItem } from "../todo-list-item";
+import { PageBtn } from "../page-btn";
+
 import "./index.scss";
 
 export const TodoList = ({ todos, onDeleted }) => {
-  let elements = null;
+  const [indexPage, setIndexPage] = useState(0);
 
-  if (todos.status) {
-    elements = todos.message.tasks.map((item) => {
+  function handleClick() {}
+
+  const count = todos.message.total_task_count;
+  const cnt = 3;
+  const cnt_page = Math.ceil(count / cnt);
+  let page = [];
+  let paginator = [];
+  let indexP = 0;
+  let itemArr = [];
+
+  const pageSwitch = (index) => {
+    setIndexPage(index);
+  };
+
+    if (cnt_page) {
+      for (let i = 0; i < cnt_page; i++) {
+        paginator.push(
+          <PageBtn
+            indexPage={indexPage}
+            index={i}
+            pageSwitch={pageSwitch}
+            handleClick={handleClick}
+          />
+        );
+      }
+    };
+
+    todos.message.tasks.forEach((item, i) => {
       const { _id, ...itemProps } = item;
-      return (
+
+      itemArr.push(
         <li key={_id} className="list-group-item">
           <TodoListItem
             {...itemProps}
@@ -18,8 +48,27 @@ export const TodoList = ({ todos, onDeleted }) => {
           />
         </li>
       );
+      if (itemArr.length >= 3 || count - 1 === i || todos.message.tasks.length-1 === i) {
+        page.push(
+          <ul
+            className={
+              indexP === indexPage
+                ? "list-group todo-list active"
+                : "list-group todo-list"
+            }
+          >
+            {itemArr}
+          </ul>
+        );
+        indexP++;
+        itemArr = [];
+      }
     });
-  }
 
-  return <ul className="list-group todo-list">{elements}</ul>;
+  return (
+    <div>
+      <div className="wrapper-page">{page[indexPage]}</div>
+      <div>{paginator}</div>
+    </div>
+  );
 };

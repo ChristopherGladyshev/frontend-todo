@@ -5,6 +5,7 @@ import { SearchPanel } from "../search-panel";
 import { TodoList } from "../todo-list";
 import { ItemStatusFilter } from "../item-status-filter";
 import { ItemAddForm } from "../item-add-form";
+import { Modal } from "../form";
 
 import { fetchTodoList } from "../../store/todo-list/actions";
 import { status } from "../../store/todo-list/selectors";
@@ -13,30 +14,80 @@ import "./index.scss";
 
 export const App = () => {
   const getData = useSelector(status);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({
+    status: null,
+    message: {
+      tasks: [],
+    },
+  });
+  const [stat] = useState(true);
+  const [task, setTask] = useState("");
 
-  const statusFilter = (task) => {
-    console.log(task);
+  const statusFilter = (e) => {
+    let search = null;
+    if (e) {
+      search = e.target.value;
+    }
+
+    const arr = {
+      status: null,
+      message: {
+        tasks: [],
+      },
+    };
     switch (task) {
       case "All":
-        return setData(getData);
+        setData(getData);
+        search = null;
+        break;
+
       case "User Name":
-        console.log(data);
+        setData(getData);
+       
         data.message.tasks.forEach((element) => {
           const { username } = element;
-          console.log(username);
+          const isUser = username.startsWith(search);
+          if (isUser) {
+            arr.status = "User Search";
+            arr.message.tasks.push(element);
+          }
         });
-        return setData();
-
+       
+        if (arr.status === "User Search") {
+          search = null;
+          setData(arr);
+        }
+        break;
+      case "Email":
+        setData(getData);
+        data.message.tasks.forEach((element) => {
+          const { email } = element;
+          const isEmail = email.startsWith(search);
+          if (isEmail) {
+            arr.status = "Email Search";
+            arr.message.tasks.push(element);
+          }
+        });
+        
+        if (arr.status === "Email Search") {
+          search = null;
+          setData(arr);
+        }
+        break;
       default:
         break;
     }
   };
 
   useEffect(() => {
-    fetchTodoList();
-    setData(getData);
-  }, []);
+    return statusFilter();
+  });
+
+  useEffect(() => {
+    if (stat) {
+      fetchTodoList().then((DATA) => setData(DATA));
+    }
+  }, [stat]);
 
   const deleteTask = (id) => {
     fetch(`http://194.87.214.215:3000/task/${id}`, {
@@ -44,7 +95,9 @@ export const App = () => {
     })
       .then((request) => request.json())
       .then((data) => {
-        if (data.status === "delete") fetchTodoList();
+        if (data.status === "delete") {
+          fetchTodoList().then((DATA) => setData(DATA));
+        }
       });
   };
 
@@ -52,11 +105,12 @@ export const App = () => {
     <div className="todo-app">
       <AppHeader toDo={1} done={3} />
       <div className="top-panel d-flex">
-        <SearchPanel />
-        <ItemStatusFilter onFilterStatus={statusFilter} />
+        <SearchPanel change={statusFilter} />
+        <ItemStatusFilter onFilterStatus={setTask} task={task} />
       </div>
       <TodoList todos={data} onDeleted={deleteTask} />
       <ItemAddForm addItem={() => {}} />
+      <Modal/>
     </div>
   );
 };

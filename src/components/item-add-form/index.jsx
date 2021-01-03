@@ -9,7 +9,7 @@ export const ItemAddForm = ({ addItem }) => {
             <button
                 className="btn btn-outline-secondary"
                 onClick={addItem}
-            >Add Element</button>
+            >Add task</button>
         </div>
     )
 }

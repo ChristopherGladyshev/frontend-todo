@@ -1,13 +1,18 @@
+/* eslint-disable no-unused-expressions */
 import React from "react";
 
 import "./index.scss";
 
-export const ItemStatusFilter = ({ onFilterStatus }) => {
+export const ItemStatusFilter = ({ onFilterStatus, task }) => {
+
+
+
+
   return (
     <div className="btn-group">
       <button
         type="button"
-        className="btn btn-info"
+        className={task === "All" ? "btn btn-info":"btn btn-outline-secondary"}
         onClick={() => {
           onFilterStatus("All");
         }}
@@ -16,8 +21,8 @@ export const ItemStatusFilter = ({ onFilterStatus }) => {
       </button>
       <button
         type="button"
-        className="btn btn-outline-secondary"
-        onClick={() => {
+        className={task === "User Name" ? "btn btn-info":"btn btn-outline-secondary"}
+        onClick={(e) => {
           onFilterStatus("User Name");
         }}
       >
@@ -26,9 +31,9 @@ export const ItemStatusFilter = ({ onFilterStatus }) => {
       <button
         type="button"
         onClick={() => {
-          onFilterStatus("email");
+          onFilterStatus("Email");
         }}
-        className="btn btn-outline-secondary"
+        className={task === "Email" ? "btn btn-info":"btn btn-outline-secondary"}
       >
         Email
       </button>
@@ -37,7 +42,7 @@ export const ItemStatusFilter = ({ onFilterStatus }) => {
         onClick={() => {
           onFilterStatus("Task text");
         }}
-        className="btn btn-outline-secondary"
+        className={task === "Task text" ? "btn btn-info":"btn btn-outline-secondary"}
       >
         Task text
       </button>
