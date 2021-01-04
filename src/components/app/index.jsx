@@ -50,9 +50,9 @@ export const App = () => {
         break;
 
       case "User Name":
-        setData(getData);
 
-        data.message.tasks.forEach((element) => {
+        getData.message.tasks.forEach((element) => {
+
           const { username } = element;
           const isUser = username.startsWith(search);
           if (isUser) {
@@ -60,15 +60,13 @@ export const App = () => {
             arr.message.tasks.push(element);
           }
         });
-
         if (arr.status === "User Search") {
           search = null;
           setData(arr);
         }
         break;
       case "Email":
-        setData(getData);
-        data.message.tasks.forEach((element) => {
+        getData.message.tasks.forEach((element) => {
           const { email } = element;
           const isEmail = email.startsWith(search);
           if (isEmail) {

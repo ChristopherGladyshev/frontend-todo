@@ -24,7 +24,6 @@ export const TodoListItem = ({
             <input
               type="text"
               onChange={(e) => {
-                console.log(e.target.value);
                 setinputValueEmail(e.target.value);
               }}
               defaultValue={`${email}`}
@@ -54,7 +53,6 @@ export const TodoListItem = ({
     }
   };
   const toggleEdit = () => {
-    console.log(isEdit);
    
     udeteSuccess(id, inputValueEmail, inputValueTask, status);
     if (!isEdit) {
