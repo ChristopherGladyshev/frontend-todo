@@ -5,11 +5,12 @@ import { SearchPanel } from "../search-panel";
 import { TodoList } from "../todo-list";
 import { ItemStatusFilter } from "../item-status-filter";
 import { ItemAddForm } from "../item-add-form";
+import { LogoutBtn } from "../logout-btn";
 import { ModalLogin } from "../modal-login";
 import { AddTaskModal } from "../modal-add-form";
 
 import { fetchTodoList } from "../../store/todo-list/actions";
-import { fetchLogin } from "../../store/login/actions"
+import { fetchLogin } from "../../store/login/actions";
 import { statusList } from "../../store/todo-list/selectors";
 import { statusLogin } from "../../store/login/selectors";
 
@@ -17,7 +18,7 @@ import "./index.scss";
 
 export const App = () => {
   const getData = useSelector(statusList);
-  const getStatusLog = useSelector(statusLogin)
+  const getStatusLog = useSelector(statusLogin);
   const [data, setData] = useState({
     status: null,
     message: {
@@ -26,6 +27,9 @@ export const App = () => {
   });
   const [stat] = useState(true);
   const [task, setTask] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [isErr, setIsErr] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const statusFilter = (e) => {
     let search = null;
@@ -105,27 +109,92 @@ export const App = () => {
       });
   };
 
-  const addTsks = (username, email, task, status) => {
-    if (getStatusLog.token) {
-      fetch("url", {
+  const addTsks = (email, task, status) => {
+    const user = localStorage.getItem("name") || null;
+
+    if (localStorage.getItem("token")) {
+      fetch("http://194.87.214.215:3000/task", {
+        method: "POST",
         mode: "cors",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: username,
+          username: user,
           email: email,
-          task: task,
+          text: task,
           status: status,
-        })
+        }),
       })
+        .then((request) => request.json())
+        .then((data) => {
+          if (data.status === "ok") {
+            setIsErr(false);
+            setIsSuccess(true);
+            setTimeout(() => {
+              setIsSuccess(false);
+            }, 3000);
+          } else {
+            setIsErr(true);
+          }
+        });
+      fetchTodoList().then((DATA) => setData(DATA));
     }
-  }
+  };
 
-  const addModal =()=>{
-    return (<AddTaskModal status={getStatusLog} add={addTsks}/>)
-  }
+  const udeteSuccess = (id, email, text, status) => {
+    const user = localStorage.getItem("name") || null;
+    if (user) {
+      fetch(`http://194.87.214.215:3000/task/${id}`, {
+        method: "PUT",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: user,
+          email: email,
+          text: text,
+          status: status === "done" ? "is work" : "done",
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {fetchTodoList().then((DATA) => setData(DATA));});
+       
+    }else{
+        setIsOpen(true);
+    }
+  };
 
+  const logaut = () => {
+    if (localStorage.getItem("token") || getStatusLog.token) {
+      return <LogoutBtn />;
+    }
+  };
+
+  const addModal = () => {
+    if (localStorage.getItem("token") && isOpen) {
+      return (
+        <AddTaskModal
+          status={getStatusLog}
+          add={addTsks}
+          isOpen={isOpen}
+          close={setIsOpen}
+          isErr={isErr}
+          isSuccess={isSuccess}
+        />
+      );
+    } else {
+      return (
+        <ModalLogin
+          change={fetchLogin}
+          status={getStatusLog}
+          isOpen={isOpen}
+          changeIsOpen={setIsOpen}
+        />
+      );
+    }
+  };
   return (
     <div className="todo-app">
       <AppHeader toDo={1} done={3} />
@@ -133,9 +202,13 @@ export const App = () => {
         <SearchPanel change={statusFilter} />
         <ItemStatusFilter onFilterStatus={setTask} task={task} />
       </div>
-      <TodoList todos={data} onDeleted={deleteTask} />
-      <ItemAddForm addItem={() => { }} />
-      <ModalLogin change={fetchLogin} status={getStatusLog} />
+      <TodoList
+        todos={data}
+        onDeleted={deleteTask}
+        udeteSuccess={udeteSuccess}
+      />
+      <ItemAddForm addForm={setIsOpen} />
+      {logaut()}
       {addModal()}
     </div>
   );

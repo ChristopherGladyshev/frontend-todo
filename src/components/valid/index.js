@@ -1,5 +1,5 @@
 export const regName = () => {
-    return new RegExp(/^[A-Za-z0-9]+$/)
+    return new RegExp(/^[A-Za-z0-9 ]+$/)
 };
 
 export const regTel = () => {
@@ -19,7 +19,7 @@ export const validName = (value, callbackUP, callbackErr) => {
         callbackErr("is-valid");
     } else {
         callbackUP("");
-      callbackErr("err");
+      callbackErr("is-invalid");
     }
 }
 
@@ -29,7 +29,7 @@ export const validTel = (value, callbackUP, callbackErr) => {
         callbackErr("ok");
     } else {
         callbackUP("");
-      callbackErr("err");
+      callbackErr("is-invalid");
     }
 }
 
@@ -39,6 +39,6 @@ export const validEmail = (value, callbackUP, callbackErr) => {
         callbackErr("is-valid");
     } else {
         callbackUP("");
-      callbackErr("err");
+      callbackErr("is-invalid");
     }
 }

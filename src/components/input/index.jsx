@@ -11,6 +11,8 @@ export const Input = ({
   className,
   defaultValue,
   fetch,
+  id,
+  messageError
 }) => {
   return (
     <div className="wrapper-input">
@@ -23,8 +25,12 @@ export const Input = ({
         className={className}
         onChange={change}
         onClick={fetch}
+        id={id}
       />
       <div className="valid-feedback">Looks good!</div>
+      <div className="invalid-feedback">
+       {messageError}
+      </div>
     </div>
   );
 };

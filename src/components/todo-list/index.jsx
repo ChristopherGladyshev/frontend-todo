@@ -5,7 +5,7 @@ import { PageBtn } from "../page-btn";
 
 import "./index.scss";
 
-export const TodoList = ({ todos, onDeleted }) => {
+export const TodoList = ({ todos, onDeleted, udeteSuccess}) => {
   const [indexPage, setIndexPage] = useState(0);
 
   function handleClick() {}
@@ -45,6 +45,8 @@ export const TodoList = ({ todos, onDeleted }) => {
             onDeleted={() => {
               onDeleted(_id);
             }}
+            id={_id}
+            udeteSuccess={udeteSuccess}
           />
         </li>
       );

@@ -1,15 +1,19 @@
-import React from 'react';
+import React from "react";
 
+import "./index.scss";
 
-import './index.scss';
-
-export const ItemAddForm = ({ addItem }) => {
-    return (
-        <div className="item-add-form">
-            <button
-                className="btn btn-outline-secondary"
-                onClick={addItem}
-            >Add task</button>
-        </div>
-    )
-}
+export const ItemAddForm = ({ addForm }) => {
+    
+  return (
+    <div className="item-add-form">
+      <button
+        className="btn btn-outline-secondary"
+        onClick={() => {
+          addForm(true);
+        }}
+      >
+        Add task
+      </button>
+    </div>
+  );
+};
