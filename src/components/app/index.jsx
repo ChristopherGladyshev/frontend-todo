@@ -56,7 +56,6 @@ export const App = () => {
           });
           data.message.tasks.reverse();
           setData(data);
-          console.log(data);
           setIsSort(false);
           setTask('')
         } else {
@@ -87,7 +86,6 @@ export const App = () => {
             });
             data.message.tasks.reverse();
             setData(data);
-            console.log(data);
             setIsSort(false);
             setTask('')
           } else {
@@ -227,7 +225,7 @@ export const App = () => {
     <div className="todo-app">
       <AppHeader toDo={1} done={3} />
       <div className="top-panel d-flex">
-        <SearchPanel change={statusFilter} />
+        {/* <SearchPanel change={statusFilter} /> */}
         <ItemStatusFilter onFilterStatus={setTask} task={task} />
       </div>
       <TodoList
