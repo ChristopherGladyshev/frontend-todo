@@ -30,6 +30,7 @@ export const App = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isErr, setIsErr] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isSort, setIsSort] = useState(true);
 
   const statusFilter = (e) => {
     let search = null;
@@ -37,53 +38,81 @@ export const App = () => {
       search = e.target.value;
     }
 
-    const arr = {
-      status: null,
-      message: {
-        tasks: [],
-      },
-    };
     switch (task) {
       case "All":
         setData(getData);
-        search = null;
         break;
 
       case "User Name":
-
-        getData.message.tasks.forEach((element) => {
-
-          const { username } = element;
-          const isUser = username.startsWith(search);
-          if (isUser) {
-            arr.status = "User Search";
-            arr.message.tasks.push(element);
-          }
-        });
-        if (arr.status === "User Search") {
-          search = null;
-          setData(arr);
+        if (isSort) {
+          data.message.tasks.sort((a, b) => {
+            if (a.username.toLowerCase() < b.username.toLowerCase()) {
+              return -1;
+            }
+            if (a.username.toLowerCase() > b.username.toLowerCase()) {
+              return 1;
+            }
+            return 0;
+          });
+          data.message.tasks.reverse();
+          setData(data);
+          console.log(data);
+          setIsSort(false);
+          setTask('')
+        } else {
+          data.message.tasks.sort((a, b) => {
+            if (a.username.toLowerCase() < b.username.toLowerCase()) {
+              return -1;
+            }
+            if (a.username.toLowerCase() > b.username.toLowerCase()) {
+              return 1;
+            }
+            return 0;
+          });
+          setData(data);
+          setIsSort(true);
+          setTask('')
         }
         break;
       case "Email":
-        getData.message.tasks.forEach((element) => {
-          const { email } = element;
-          const isEmail = email.startsWith(search);
-          if (isEmail) {
-            arr.status = "Email Search";
-            arr.message.tasks.push(element);
+        if (isSort) {
+            data.message.tasks.sort((a, b) => {
+              if (a.email.toLowerCase() < b.email.toLowerCase()) {
+                return -1;
+              }
+              if (a.email.toLowerCase() > b.email.toLowerCase()) {
+                return 1;
+              }
+              return 0;
+            });
+            data.message.tasks.reverse();
+            setData(data);
+            console.log(data);
+            setIsSort(false);
+            setTask('')
+          } else {
+            data.message.tasks.sort((a, b) => {
+              if (a.email.toLowerCase() < b.email.toLowerCase()) {
+                return -1;
+              }
+              if (a.email.toLowerCase() > b.email.toLowerCase()) {
+                return 1;
+              }
+              return 0;
+            });
+            setData(data);
+            setIsSort(true);
+            setTask('')
           }
-        });
-
-        if (arr.status === "Email Search") {
-          search = null;
-          setData(arr);
-        }
         break;
       default:
         break;
     }
   };
+
+  useEffect(() => {
+    statusFilter();
+  }, [data])
 
   useEffect(() => {
     return statusFilter();
@@ -157,10 +186,11 @@ export const App = () => {
         }),
       })
         .then((response) => response.json())
-        .then((data) => {fetchTodoList().then((DATA) => setData(DATA));});
-       
-    }else{
-        setIsOpen(true);
+        .then((data) => {
+          fetchTodoList().then((DATA) => setData(DATA));
+        });
+    } else {
+      setIsOpen(true);
     }
   };
 
