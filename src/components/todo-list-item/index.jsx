@@ -23,6 +23,7 @@ export const TodoListItem = ({
             <label htmlFor="">Email</label>
             <input
               type="text"
+              className={"form-control"}
               onChange={(e) => {
                 setinputValueEmail(e.target.value);
               }}
@@ -33,6 +34,7 @@ export const TodoListItem = ({
             <label htmlFor="">Task</label>
             <input
               type="text"
+              className={"form-control"}
               onChange={(e) => {
                 setinputValueTask(e.target.value);
               }}

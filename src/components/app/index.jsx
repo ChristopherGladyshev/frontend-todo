@@ -123,7 +123,7 @@ export const App = () => {
   }, [stat]);
 
   const deleteTask = (id) => {
-    fetch(`http://194.87.214.215:3000/task/${id}`, {
+    fetch(`http://194.87.214.215/task/${id}`, {
       method: "DELETE",
     })
       .then((request) => request.json())
@@ -138,7 +138,7 @@ export const App = () => {
     const user = localStorage.getItem("name") || null;
 
     if (localStorage.getItem("token")) {
-      fetch("http://194.87.214.215:3000/task", {
+      fetch("http://194.87.214.215/task", {
         method: "POST",
         mode: "cors",
         headers: {
@@ -170,7 +170,7 @@ export const App = () => {
   const udeteSuccess = (id, email, text, status) => {
     const user = localStorage.getItem("name") || null;
     if (user) {
-      fetch(`http://194.87.214.215:3000/task/${id}`, {
+      fetch(`http://194.87.214.215/task/${id}`, {
         method: "PUT",
         mode: "cors",
         headers: {

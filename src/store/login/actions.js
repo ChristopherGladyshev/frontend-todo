@@ -19,7 +19,7 @@ export const fetchLogin = (username, password) => {
     store.dispatch(fetchDataStart());
 
 
-    return fetch('http://194.87.214.215:3000/login', {
+    return fetch('http://194.87.214.215/login', {
             method: 'POST',
             mode: "cors",
             headers: {

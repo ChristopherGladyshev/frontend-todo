@@ -16,7 +16,7 @@ export const fetchTodoList = () => {
 
     store.dispatch(fetchDataStart());
 
-    return fetch('http://194.87.214.215:3000/tasks/?developer=admin', {
+    return fetch('http://194.87.214.215/tasks/?developer=admin', {
             method: 'GET',
             mode: "cors",
         })
