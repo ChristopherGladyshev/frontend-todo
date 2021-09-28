@@ -19,7 +19,7 @@ export const fetchLogin = (username, password) => {
     store.dispatch(fetchDataStart());
 
 
-    return fetch('http://194.87.239.49/api/login', {
+    return fetch('http://si-cat.ru/api/login', {
             method: 'POST',
             mode: "cors",
             headers: {

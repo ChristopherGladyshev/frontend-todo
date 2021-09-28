@@ -123,7 +123,7 @@ export const App = () => {
   }, [stat]);
 
   const deleteTask = (id) => {
-    fetch(`http://194.87.239.49/api/task/${id}`, {
+    fetch(`http://si-cat.ru/api/task/${id}`, {
       method: "DELETE",
     })
       .then((request) => request.json())
@@ -138,7 +138,7 @@ export const App = () => {
     const user = localStorage.getItem("name") || null;
 
     if (localStorage.getItem("token")) {
-      fetch("http://194.87.239.49/api/task/", {
+      fetch("http://si-cat.ru/api/task/", {
         method: "POST",
         mode: "cors",
         headers: {
@@ -170,7 +170,7 @@ export const App = () => {
   const udeteSuccess = (id, email, text, status) => {
     const user = localStorage.getItem("name") || null;
     if (user) {
-      fetch(`http://194.87.239.49/api/task/${id}`, {
+      fetch(`http://si-cat.ru/api/task/${id}`, {
         method: "PUT",
         mode: "cors",
         headers: {

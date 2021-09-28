@@ -16,7 +16,7 @@ export const fetchTodoList = () => {
 
     store.dispatch(fetchDataStart());
 
-    return fetch('http://194.87.239.49/api/tasks/?developer=admin', {
+    return fetch('http://si-cat.ru/api/tasks/?developer=admin', {
             method: 'GET',
             mode: "cors",
         })
